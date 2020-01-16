@@ -119,20 +119,117 @@ extension SidemenuViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 8
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Default", for: indexPath)
-        cell.textLabel?.text = "Item \(indexPath.row)"
+        //cell.textLabel?.text = "Item \(indexPath.row)"
+        if indexPath.row == 0 {
+            cell.textLabel?.text = "posts"
+        } else if indexPath.row == 1 {
+            cell.textLabel?.text = "search_posts"
+        } else if indexPath.row == 2 {
+            cell.textLabel?.text = "search_users"
+        } else if indexPath.row == 3 {
+            cell.textLabel?.text = "followings_list"
+        } else if indexPath.row == 4 {
+            cell.textLabel?.text = "followers_list"
+        } else if indexPath.row == 5 {
+            cell.textLabel?.text = "favorites_list"
+        } else if indexPath.row == 6 {
+            cell.textLabel?.text = "my_posts"
+        } else if indexPath.row == 7 {
+            cell.textLabel?.text = "policy"
+        }
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.sidemenuViewController(self, didSelectItemAt: indexPath)
         
-        print("testtest")
-        print(indexPath.row)
+        //print("testtest")
+        //print(self.presentingViewController) // test // nil
+        //print(UIApplication.shared.keyWindow?.rootViewController) // test // Optional(<UINavigationController: 0x7ff97700a400>)
+        //print(UIApplication.shared.keyWindow?.rootViewController?.presentingViewController) // test // nil
+        //print(self.presentingNavigationController) // test
+        //print(self.presentingNavigationController.viewControllers[0]) // test
+        //print(UIApplication.shared.keyWindow?.rootViewController?.viewControllers[0]) // test
+        //let preNC = UIApplication.shared.keyWindow?.rootViewController as! UINavigationController // test // 参考：https://qiita.com/wadaaaan/items/acc8967c836d616e3b0b
+        //print(preNC.viewControllers[0]) // test // <TwitterClone.ViewController: 0x7fb4e640b4a0>
+        //print(preNC.viewControllers[1]) // test
+        //print(preNC.viewControllers[2]) // test
+        //print(preNC.viewControllers.count) // test // 1
+        //print(preNC.viewControllers[0].presentingViewController) // test // nil
+        //print(preNC.viewControllers[0].children) // test // [<TwitterClone.MainViewController: 0x7fe0c2604b30>, <TwitterClone.SidemenuViewController: 0x7fe0c2613ca0>]
+        //print(preNC.viewControllers[0].children[0]) // test // <TwitterClone.MainViewController: 0x7fc09440d2b0>
+        
+        //print(indexPath.row) // test
+        
+        if indexPath.row == 0 { // "posts"
+            //let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: "Login")
+            //print("loginViewController") // test
+            //print(loginViewController) // test // nil
+            //self.present(loginViewController!, animated: true, completion: nil)
+            
+            let preNC = UIApplication.shared.keyWindow?.rootViewController as! UINavigationController // test // 参考：https://qiita.com/wadaaaan/items/acc8967c836d616e3b0b
+            let mainViewController = preNC.viewControllers[0].children[0] as! MainViewController
+            mainViewController.itemId = Const.item_id__nav_posts
+            // 全てのモーダルを閉じる // 参考：Lesson8.8.3
+            //UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: nil) // 動かない
+            
+            //self.dismiss(animated: false, completion: nil) // 動かない
+            
+            //let viewController = preNC.viewControllers[0] as! ViewController // エラー // Application tried to present modally an active controller
+            //self.present(viewController, animated: true, completion: nil)
+            
+            // 参考：https://stackoverflow.com/questions/48336697/swift-tried-to-present-modally-an-active-controller-current-view-controller-ev/48336914
+            //let storyboard = UIStoryboard(storyboard: .Main) // 参考：https://qiita.com/mitz/items/91a47eee524a6789ab74
+            let storyboard = UIStoryboard(name: "Main", bundle: nil) // 参考：http://crossbridge-lab.hatenablog.com/entry/2015/12/14/073000
+            let navigation = storyboard.instantiateInitialViewController() as! UINavigationController
+            //print(navigation.viewControllers) // test // [<TwitterClone.ViewController: 0x7f9dc874a290>]
+            //print(navigation.viewControllers[0]) // test // <TwitterClone.ViewController: 0x7f9dc874a290>
+            self.present(navigation, animated: true, completion: nil)
+            
+            print("test item_id__nav_posts")
+        } else if indexPath.row == 1 { // "search_posts"
+            //let preNC = UIApplication.shared.keyWindow?.rootViewController as! UINavigationController // test // 参考：https://qiita.com/wadaaaan/items/acc8967c836d616e3b0b
+            //let mainViewController = preNC.viewControllers[0].children[0] as! MainViewController
+            //mainViewController.itemId = Const.item_id__nav_search_posts
+
+            // 参考：https://stackoverflow.com/questions/48336697/swift-tried-to-present-modally-an-active-controller-current-view-controller-ev/48336914
+            let storyboard = UIStoryboard(name: "Main", bundle: nil) // 参考：http://crossbridge-lab.hatenablog.com/entry/2015/12/14/073000
+            let navigation = storyboard.instantiateInitialViewController() as! UINavigationController
+            //let mainViewController = navigation.viewControllers[0].children[0] as! MainViewController // エラー
+            //mainViewController.itemId = Const.item_id__nav_search_posts
+            //print(navigation.viewControllers[0]) // test // <TwitterClone.ViewController: 0x7ffb18654430>
+            //print(navigation.viewControllers[0].children) // test // []
+            //print(navigation.topViewController) // test // Optional(<TwitterClone.ViewController: 0x7fcd10720530>)
+            let viewController = navigation.topViewController as! ViewController
+            viewController.itemId = Const.item_id__nav_search_posts
+            self.present(navigation, animated: true, completion: nil)
+
+            print("test item_id__nav_search_posts")
+            
+            
+        } else if indexPath.row == 2 { // "search_users"
+            
+        } else if indexPath.row == 3 { // "followings_list"
+            
+        } else if indexPath.row == 4 { // "followers_list"
+            
+        } else if indexPath.row == 5 { // "favorites_list"
+            
+        } else if indexPath.row == 6 { // "my_posts"
+            
+        } else if indexPath.row == 7 { // "policy"
+//            let preNC = UIApplication.shared.keyWindow?.rootViewController as! UINavigationController // test // 参考：https://qiita.com/wadaaaan/items/acc8967c836d616e3b0b
+//            let mainViewController = preNC.viewControllers[0].children[0] as! MainViewController
+//            mainViewController.itemId = Const.item_id__nav_policy
+//
+//            print("test item_id__nav_policy")
+        }
     }
 }
 

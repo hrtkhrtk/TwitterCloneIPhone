@@ -11,6 +11,9 @@ import Firebase
 
 class MainViewController: UIViewController {
     
+    //var itemId:Int!
+    var itemId:Int = -1
+    
     @IBAction func handleFabButton(_ sender: Any) {
         // 画面を表示する
         let sendingPostViewController = self.storyboard?.instantiateViewController(withIdentifier: "SendingPost")
@@ -31,6 +34,20 @@ class MainViewController: UIViewController {
             // ログインしていないときの処理
             let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: "Login")
             self.present(loginViewController!, animated: true, completion: nil)
+        }
+    }
+    
+    // segue で画面遷移する時に呼ばれる
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        let mainWithFabViewController:MainWithFabViewController = segue.destination as! MainWithFabViewController
+        if segue.identifier == "segueToMainWithFabViewController" {
+            if self.itemId < 0 {
+                // ここは動作する予定はないが
+                self.itemId = Const.item_id__nav_posts // 最初はnav_posts
+                print("DEBUG_PRINT: ここは動作する予定はない01")
+            }
+            
+            mainWithFabViewController.itemId = self.itemId
         }
     }
 

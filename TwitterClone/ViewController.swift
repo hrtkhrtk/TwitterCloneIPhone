@@ -10,6 +10,9 @@ import UIKit
 import Firebase
 
 class ViewController: UIViewController {
+    
+    var itemId:Int = -1
+    
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
     @IBAction func handleSettingButton(_ sender: Any) {
@@ -46,12 +49,21 @@ class ViewController: UIViewController {
         menuButton.target = self // 参考：https://stackoverflow.com/questions/2333638/how-to-set-target-and-action-for-uibarbuttonitem-at-runtime 「Just set the UIBarButtonItem's target and action properties directly.」
         menuButton.action = #selector(sidemenuBarButtonTapped(sender:))
         
-        let mainViewController = self.storyboard?.instantiateViewController(withIdentifier: "Main")
+        let mainViewController = self.storyboard?.instantiateViewController(withIdentifier: "Main") as! MainViewController
+        print("test0116 n01")
+        print(self.itemId) // test // -1
+        if self.itemId < 0 {
+            self.itemId = Const.item_id__nav_posts // 最初はnav_posts
+        }
+        mainViewController.itemId = self.itemId
         //addChildViewController(mainViewController!)
-        addChild(mainViewController!)
-        view.addSubview(mainViewController!.view)
+        //addChild(mainViewController!)
+        addChild(mainViewController)
+        //view.addSubview(mainViewController!.view)
+        view.addSubview(mainViewController.view)
         //mainViewController!.didMove(toParentViewController: self)
-        mainViewController!.didMove(toParent: self)
+        //mainViewController!.didMove(toParent: self)
+        mainViewController.didMove(toParent: self)
     }
     
     @objc private func sidemenuBarButtonTapped(sender: Any) {

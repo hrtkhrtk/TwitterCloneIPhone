@@ -17,7 +17,8 @@ class MainWithFabViewController: UIViewController, UITableViewDataSource, UITabl
     // DatabaseのobserveEventの登録状態を表す
     var postRefObserving = false
     
-    var itemId:Int!
+    //var itemId:Int!
+    var itemId:Int = -1
     var followingsListWithCurrentUser = [String]()
     var currentUserUid = ""
     
@@ -51,7 +52,7 @@ class MainWithFabViewController: UIViewController, UITableViewDataSource, UITabl
         // 高さ概算値 = 90pt
         tableView.estimatedRowHeight = 90
         
-        self.itemId = Const.item_id__nav_posts // 最初はnav_posts
+        // self.itemId = Const.item_id__nav_posts // 最初はnav_posts
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -61,6 +62,12 @@ class MainWithFabViewController: UIViewController, UITableViewDataSource, UITabl
         let user = Auth.auth().currentUser
         if let user = user {
             self.currentUserUid = user.uid
+            
+            if self.itemId < 0 {
+                // ここは動作する予定はないが
+                self.itemId = Const.item_id__nav_posts // 最初はnav_posts
+                print("DEBUG_PRINT: ここは動作する予定はない02")
+            }
             
             if self.itemId == Const.item_id__nav_posts {
                 self.postArray.removeAll()
